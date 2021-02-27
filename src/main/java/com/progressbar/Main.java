@@ -16,12 +16,22 @@ public class Main {
    * @param args input arguments
    */
   public static void main(String[] args) {
-    String[] arguments = new String[args.length];
+    //String[] arguments = new String[args.length];
     long startTime = System.currentTimeMillis();
-    int delay = Integer.parseInt(args[1]) * 1000;
+    int delay;
     int numberOfFiles = Integer.parseInt(args[0]);
 
+    int[] arrayOfDelays = new int[args.length - 1];
+    for (int i = 1; i < arrayOfDelays.length; i++) {
+      arrayOfDelays[i - 1] = Integer.parseInt(args[i]);
+    }
+
     for (int i = 1; i <= numberOfFiles; i++) {
+      if (args.length < 3) {
+        delay = Integer.parseInt(args[1]) * 1000;
+      } else {
+        delay = takeRandom(arrayOfDelays) * 1000;
+      }
       try {
         Thread.sleep(delay);
         printBar(startTime, numberOfFiles, i);
@@ -98,7 +108,7 @@ public class Main {
   }
 
   private static int takeRandom(int[] target) {
-    int index = new Random().nextInt(target.length);
+    int index = new Random().nextInt(target.length - 1);
     return target[index];
   }
 
